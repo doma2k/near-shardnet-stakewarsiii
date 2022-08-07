@@ -1,0 +1,128 @@
+#cloud-config
+
+# Upgrade the instance on first boot
+#
+# Default: false
+package_upgrade: true
+apt:
+  preserve_sources_list: true
+    # Only permit security updates
+  disable_suites: [$RELEASE-updates, $RELEASE-backports, $RELEASE]
+
+packages:
+  - htop 
+  - iotop
+  - nmon 
+  - nload 
+  - net-tools 
+  - whois 
+  - wget 
+  - curl 
+  - git 
+  - zip 
+  - unzip 
+  - software-properties-common 
+  - unattended-upgrades 
+  - nmap 
+  - iptables 
+  - nftables 
+  - ca-certificates
+  - needrestart
+  - bash-completion 
+  - lsof
+  - lm-sensors 
+  - fancontrol 
+  - read-edid 
+  - i2c-tools 
+  - ncat 
+  - ndiff 
+  - libssl-dev
+  - iperf
+  - screen
+  - mlocate
+  - apt-transport-https
+  - ipset
+  - binutils-dev 
+  - libcurl4-openssl-dev 
+  - zlib1g-dev 
+  - libdw-dev 
+  - libiberty-dev 
+  - cmake 
+  - gcc 
+  - g++ 
+  - python 
+  - protobuf-compiler 
+  - pkg-config 
+  - clang 
+  - llvm
+  - python3-pip
+  - build-essential 
+  - make
+  
+# Add preconfigured files here
+write_files:
+- content: |
+    sudo apt update && sudo apt upgrade -yq
+    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -  
+    apt install build-essential nodejs -yq
+    PATH="$PATH"
+    npm install -g near-cli
+    echo 'export NEAR_ENV=shardnet' >> ~/.bashrc
+    echo 'export NEAR_ENV=shardnet' >> ~/.bash_profile
+    source $HOME/.bash_profile
+    USER_BASE_BIN=$(python3 -m site --user-base)/bin
+    export PATH="$USER_BASE_BIN:$PATH"
+    apt install clang build-essential make -yq
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source $HOME/.cargo/env
+    git clone https://github.com/near/nearcore
+    cd nearcore
+    git fetch
+    VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
+    git checkout $VERSION
+    cargo build -p neard --release --features shardnet
+    neard --home /home/near/.near init --chain-id shardnet --download-genesis
+    rm ~/.near/config.json
+    wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
+    
+    file_location="/etc/systemd/system/neard.service"
+    cat > $file_location <<EOF
+      [Unit]
+      Description=NEARd Daemon Service
+
+      [Service]
+      Type=simple
+      User=near
+      Group=near
+      WorkingDirectory=/home/near/.near
+      ExecStart=neard run --home /home/near/.near
+      Restart=on-failure
+      RestartSec=30
+      KillSignal=SIGINT
+      TimeoutStopSec=45
+      KillMode=mixed
+
+      [Install]
+      WantedBy=multi-user.target   
+    EOF
+  path: /etc/sysconfig/samba
+
+# User Accounts
+users:
+  - name: near
+    gecos: Near
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+    shell: /bin/bash
+    passwd: changeme    
+
+# Group Accounts
+groups:
+  - cloud-users
+
+# Run Files
+runcmd:
+  - chmod +x /home/near/setup.sh
+  - /home/near/setup.sh 
+# Final Boot Message: written to /var/log/cloud-init.log, /var/log/messages
+final_message: "The system is finally up, after $UPTIME seconds"
