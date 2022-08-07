@@ -105,7 +105,7 @@ write_files:
       [Install]
       WantedBy=multi-user.target   
     EOF
-  path: /etc/sysconfig/samba
+  path: /home/near/setup.sh
 
 # User Accounts
 users:
