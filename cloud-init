@@ -73,6 +73,7 @@ write_files:
     export PATH="$USER_BASE_BIN:$PATH"
     apt install clang build-essential make -yq
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    curl -s https://raw.githubusercontent.com/ImStaked/near-shardnet-stakewarsiii/main/near-setup.sh --output /home/near/near-setup.sh
     echo "Please Log in to complete setup"
   path: /home/near/setup.sh
 
