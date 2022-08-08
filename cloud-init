@@ -94,13 +94,15 @@ write_files:
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   path: /home/near/setup.sh
 - content: |
+    !/bin/bash
+    git clone https://github.com/near/nearcore
+    cd nearcore
+    git fetch
+    VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
+    git checkout $VERSION
+    cargo build -p neard --release --features shardnet
+    cp /root/nearcore/target/release/neard /usr/local/bin
     sudo -i -u near bash << EOF
-      git clone https://github.com/near/nearcore
-      cd nearcore
-      git fetch
-      VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
-      git checkout $VERSION
-      cargo build -p neard --release --features shardnet
       neard --home /home/near/.near init --chain-id shardnet --download-genesis
       rm ~/.near/config.json
       wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
@@ -108,8 +110,7 @@ write_files:
       echo 'export NEAR_ENV=shardnet' >> ~/.bash_profile
       source /home/near/.bash_profile
     EOF
-    cp /home/near/nearcore/target/release/neard /usr/local/bin/
-    echo "Please Log in to complete setup"
+    echo "near is now installed"
   path: /home/near/final.sh
   
 # User Accounts
