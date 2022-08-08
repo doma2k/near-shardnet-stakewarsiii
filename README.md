@@ -13,6 +13,7 @@
 
 ### Add your wallet to near-cli
   ```
+  su near
   near login
   ```
   - Copy the provided link in your browser
@@ -28,6 +29,7 @@
   ```
   near generate-key <pool_id>
   cp ~/.near-credentials/shardnet/YOUR_WALLET.json ~/.near/validator_key.json
+  nano ~/.near/validator_key.json
   ```
   - Edit “account_id” => xx.factory.shardnet.near, where xx is your PoolName
   - Change private_key to secret_key
