@@ -92,15 +92,8 @@ write_files:
       [Install]
       WantedBy=multi-user.target   
     EOF
-    chown near:near -R /home/near
-    git clone https://github.com/near/nearcore
-    cd nearcore
-    git fetch
-    VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
-    git checkout $VERSION
-    cargo build -p neard --release --features shardnet
-    cp ./target/release/neard /usr/local/bin/
     sudo -i -u near bash << EOF
+      chown near:near -R /home/near
       source "/root/.cargo/env"
       git clone https://github.com/near/nearcore
       cd nearcore
@@ -108,6 +101,7 @@ write_files:
       VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
       git checkout $VERSION
       cargo build -p neard --release --features shardnet
+      cp ./target/release/neard /usr/local/bin/
       sudo cp /home/near/nearcore/target/release/neard /usr/local/bin
       neard --home /home/near/.near init --chain-id shardnet --download-genesis
       rm ~/.near/config.json
