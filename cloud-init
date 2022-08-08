@@ -71,7 +71,6 @@ write_files:
     npm install -g near-cli
     USER_BASE_BIN=$(python3 -m site --user-base)/bin
     export PATH="$USER_BASE_BIN:$PATH"
-    apt install clang build-essential make -yq
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     file_location="/etc/systemd/system/neard.service"
     cat > $file_location <<EOF
@@ -102,6 +101,13 @@ write_files:
     cargo build -p neard --release --features shardnet
     cp ./target/release/neard /usr/local/bin/
     sudo -i -u near bash << EOF
+      git clone https://github.com/near/nearcore
+      cd nearcore
+      git fetch
+      VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
+      git checkout $VERSION
+      cargo build -p neard --release --features shardnet
+      sudo cp /home/near/nearcore/target/release/neard /usr/local/bin
       neard --home /home/near/.near init --chain-id shardnet --download-genesis
       rm ~/.near/config.json
       wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
