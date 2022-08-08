@@ -69,9 +69,6 @@ write_files:
     apt install build-essential nodejs -yq
     PATH="$PATH"
     npm install -g near-cli
-    echo 'export NEAR_ENV=shardnet' >> ~/.bashrc
-    echo 'export NEAR_ENV=shardnet' >> ~/.bash_profile
-    source $HOME/.bash_profile
     USER_BASE_BIN=$(python3 -m site --user-base)/bin
     export PATH="$USER_BASE_BIN:$PATH"
     apt install clang build-essential make -yq
