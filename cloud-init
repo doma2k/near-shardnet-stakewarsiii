@@ -60,6 +60,7 @@ packages:
   - make
   - ccze
   - jq
+  - cargo
   
 # Add preconfigured files here
 write_files:
@@ -71,7 +72,6 @@ write_files:
     npm install -g near-cli
     USER_BASE_BIN=$(python3 -m site --user-base)/bin
     export PATH="$USER_BASE_BIN:$PATH"
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     file_location="/etc/systemd/system/neard.service"
     cat > $file_location <<EOF
       [Unit]
@@ -93,7 +93,6 @@ write_files:
       WantedBy=multi-user.target   
     EOF
     sudo -i -u near bash << EOF
-      source /home/near/.cargo/env
       git clone https://github.com/near/nearcore
       cd nearcore
       git fetch
@@ -128,12 +127,10 @@ groups:
 
 # Run Files
 runcmd:
-  - mkdir -p /home/near/.cargo
-  - cp /root/.cargo/env /home/near/.cargo/
   - chmod +x /home/near/setup.sh
   - chown near:near -R /home/near
   - /home/near/setup.sh
-  - cp ./target/release/neard /usr/local/bin/
+  - cp /home/near/nearcore/target/release/neard /usr/local/bin/
   - chmod +x /home/near/final.sh
   - /home/near/final.sh
   
