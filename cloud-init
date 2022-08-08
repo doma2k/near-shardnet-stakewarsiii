@@ -103,14 +103,13 @@ users:
   - name: near
     gecos: Near
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: sudo, near
+    groups: sudo
     shell: /bin/bash
     passwd: changeme    
 
 # Group Accounts
 groups:
   - cloud-users
-  - near
 
 # Run Files
 runcmd:
