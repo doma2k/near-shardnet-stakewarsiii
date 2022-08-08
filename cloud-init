@@ -93,6 +93,18 @@ write_files:
       WantedBy=multi-user.target   
     EOF
     sudo -i -u near bash << EOF
+      source /home/near/.cargo/env
+      git clone https://github.com/near/nearcore
+      cd nearcore
+      git fetch
+      VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
+      git checkout $VERSION
+      cargo build -p neard --release --features shardnet
+    EOF
+    echo "Please Log in to complete setup"
+  path: /home/near/setup.sh
+- content: |
+    sudo -i -u near bash << EOF
       neard --home /home/near/.near init --chain-id shardnet --download-genesis
       rm ~/.near/config.json
       wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
@@ -100,10 +112,7 @@ write_files:
       echo 'export NEAR_ENV=shardnet' >> ~/.bash_profile
       source /home/near/.bash_profile
     EOF
-
-    echo "Please Log in to complete setup"
-  path: /home/near/setup.sh
-
+  path: /home/near/final.sh
 # User Accounts
 users:
   - name: near
@@ -119,16 +128,14 @@ groups:
 
 # Run Files
 runcmd:
+  - mkdir -p /home/near/.cargo
+  - cp /root/.cargo/env /home/near/.cargo/
   - chmod +x /home/near/setup.sh
   - chown near:near -R /home/near
-  - source "/root/.cargo/env"
-  - git clone https://github.com/near/nearcore
-  - cd nearcore
-  - git fetch
-  - VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
-  - git checkout $VERSION
-  - cargo build -p neard --release --features shardnet
-  - cp ./target/release/neard /usr/local/bin/
   - /home/near/setup.sh
+  - cp ./target/release/neard /usr/local/bin/
+  - chmod +x /home/near/final.sh
+  - /home/near/final.sh
+  
 # Final Boot Message: written to /var/log/cloud-init.log, /var/log/messages
 final_message: "The system is finally up, after $UPTIME seconds"
