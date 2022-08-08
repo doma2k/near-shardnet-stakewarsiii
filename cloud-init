@@ -94,7 +94,7 @@ write_files:
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   path: /home/near/setup.sh
 - content: |
-    !/bin/bash
+    #!/bin/bash
     git clone https://github.com/near/nearcore
     cd nearcore
     git fetch
