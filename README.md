@@ -22,7 +22,8 @@
   ```
   - Copy the provided link in your browser
   - Grant Access to Near CLI
-  - After Grant, you will see an error page go back to the console
+  - After Grant, you will see an error page 
+  - Go back to the console
   - Enter your wallet and press Enter
 
 ### Configure the validator key
