@@ -12,11 +12,44 @@
   ```
 
 ### Add your wallet to near-cli
+  ```
+  near login
+  ```
+  – Copy the provided link in your browser
+  – Grant Access to Near CLI
+  – After Grant, you will see an error page go back to the console
+  – Enter your wallet and press Enter
 
+### Configure the validator key
+  ```
+  cat ~/.near/validator_key.json
+  ```
+  - If a validator_key.json is not present, follow these steps to create one
+  ```
+  near generate-key <pool_id>
+  cp ~/.near-credentials/shardnet/YOUR_WALLET.json ~/.near/validator_key.json
+  ```
+  - Edit “account_id” => xx.factory.shardnet.near, where xx is your PoolName
+  - Change private_key to secret_key
+  
 ### TO START NEARD
 - systemctl enable neard
 - systemctl start neard
 
+#### !! WAIT FOR THE NODE TO SYNC !!
+
+- Mounting a staking pool
+```
+near call factory.shardnet.near create_staking_pool '{"staking_pool_id": "<pool name>", "owner_id": "<accountId>", "stake_public_key": "<public key>", "reward_fee_fraction": {"numerator": 5, "denominator": 100}, "code_hash":"DD428g9eqLL8fWUxv8QSpVFzyHi1Qd16P8ephYCTmMSZ"}' --accountId="<accountId>" --amount=30 --gas=300000000000000
+```
+- Deposit Funds and Stake
+```
+near call <pool_id> deposit_and_stake --amount <amount> --accountId <accountId> --gas=300000000000000
+```
+- Ping pool to start validating
+```
+near call <pool_id> ping '{}' --accountId <accountId> --gas=300000000000000
+```
 
 
 
