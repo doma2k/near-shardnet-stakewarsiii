@@ -35,10 +35,17 @@
   - Change private_key to secret_key
   
 ### TO START NEARD
-- systemctl enable neard
-- systemctl start neard
+  ```
+  systemctl enable neard
+  systemctl start neard
+  ```
 
-#### !! WAIT FOR THE NODE TO SYNC !!
+### Check node status
+  ```
+  journalctl -n 100 -f -u neard | ccze -A
+  ```
+  
+#### !! WAIT FOR THE NODE TO SYNC !! 
 
 - Mounting a staking pool
 ```
