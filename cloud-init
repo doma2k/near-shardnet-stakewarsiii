@@ -93,8 +93,6 @@ write_files:
       WantedBy=multi-user.target   
     EOF
     sudo -i -u near bash << EOF
-      chown near:near -R /home/near
-      source "/root/.cargo/env"
       git clone https://github.com/near/nearcore
       cd nearcore
       git fetch
@@ -130,6 +128,8 @@ groups:
 # Run Files
 runcmd:
   - chmod +x /home/near/setup.sh
+  - chown near:near -R /home/near
+  - source "/root/.cargo/env"
   - /home/near/setup.sh 
 # Final Boot Message: written to /var/log/cloud-init.log, /var/log/messages
 final_message: "The system is finally up, after $UPTIME seconds"
