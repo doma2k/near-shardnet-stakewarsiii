@@ -101,6 +101,7 @@ write_files:
     cargo build -p neard --release --features shardnet
     cp ./target/release/neard /usr/local/bin/
     sudo -i -u near bash << EOF
+      source "$HOME/.cargo/env"
       git clone https://github.com/near/nearcore
       cd nearcore
       git fetch
