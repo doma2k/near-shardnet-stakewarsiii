@@ -75,6 +75,26 @@ write_files:
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     curl -s https://raw.githubusercontent.com/ImStaked/near-shardnet-stakewarsiii/main/near-setup.sh --output /home/near/near-setup.sh
     chmod +x /home/near/near-setup.sh
+    file_location="/etc/systemd/system/neard.service"
+    cat > $file_location <<EOF
+      [Unit]
+      Description=NEARd Daemon Service
+
+      [Service]
+      Type=simple
+      User=near
+      Group=near
+      WorkingDirectory=/home/near/.near
+      ExecStart=neard run --home /home/near/.near
+      Restart=on-failure
+      RestartSec=30
+      KillSignal=SIGINT
+      TimeoutStopSec=45
+      KillMode=mixed
+
+      [Install]
+      WantedBy=multi-user.target   
+    EOF
     echo "Please Log in to complete setup"
   path: /home/near/setup.sh
 
