@@ -29,10 +29,10 @@
   ```
   near generate-key <pool_id>
   cp ~/.near-credentials/shardnet/YOUR_WALLET.json ~/.near/validator_key.json
+  sed 's/private/secret/g' ~/.near/validator_key.json
   nano ~/.near/validator_key.json
   ```
   - Edit “account_id” => xx.factory.shardnet.near, where xx is your PoolName
-  - Change private_key to secret_key
   
 ### TO START NEARD
   ```
