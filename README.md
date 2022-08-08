@@ -10,6 +10,10 @@
   ```
   cat /var/log/cloud-init-output.log | grep "The system is finally up"
   ```
+- Run this script to complete the build process
+  ```
+  /home/near/near-setup.sh
+  ```
 
 ### Add your wallet to near-cli
   ```
