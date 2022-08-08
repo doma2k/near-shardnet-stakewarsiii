@@ -87,6 +87,9 @@ write_files:
     neard --home /home/near/.near init --chain-id shardnet --download-genesis
     rm ~/.near/config.json
     wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
+    echo 'export NEAR_ENV=shardnet' >> ~/.bashrc
+    echo 'export NEAR_ENV=shardnet' >> ~/.bash_profile
+    source $HOME/.bash_profile
     
     file_location="/etc/systemd/system/neard.service"
     cat > $file_location <<EOF
