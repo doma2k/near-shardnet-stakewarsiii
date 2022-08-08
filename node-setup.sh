@@ -26,8 +26,8 @@ function near_cli_setup
 function add_near_user
 {
     useradd -U -m -d /home/near -r -s /bin/bash near
-
 }
+
 # Setup Node
 function node_setup
 {
@@ -43,6 +43,7 @@ function node_setup
     VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
     git checkout $VERSION
     cargo build -p neard --release --features shardnet
+    cp ./target/release/neard /usr/local/bin/
     neard --home /home/near/.near init --chain-id shardnet --download-genesis
     rm ~/.near/config.json
     wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
