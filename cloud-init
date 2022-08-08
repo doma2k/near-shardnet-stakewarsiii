@@ -81,6 +81,7 @@ write_files:
     VERSION=$(curl https://raw.githubusercontent.com/near/stakewars-iii/main/commit.md)
     git checkout $VERSION
     cargo build -p neard --release --features shardnet
+    cp ./target/release/neard /usr/local/bin/
     neard --home /home/near/.near init --chain-id shardnet --download-genesis
     rm ~/.near/config.json
     wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
@@ -112,13 +113,14 @@ users:
   - name: near
     gecos: Near
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: sudo
+    groups: sudo, near
     shell: /bin/bash
     passwd: changeme    
 
 # Group Accounts
 groups:
   - cloud-users
+  - near
 
 # Run Files
 runcmd:
