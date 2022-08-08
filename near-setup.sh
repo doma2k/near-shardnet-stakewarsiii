@@ -1,6 +1,8 @@
 #!/bin/bash
 
+chown near:near -R /home/near
 su near
+cd ~
 source $HOME/.cargo/env
 git clone https://github.com/near/nearcore
 cd nearcore
