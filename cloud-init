@@ -58,6 +58,8 @@ packages:
   - python3-pip
   - build-essential 
   - make
+  - ccze
+  - jq
   
 # Add preconfigured files here
 write_files:
