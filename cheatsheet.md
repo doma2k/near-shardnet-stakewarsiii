@@ -1,39 +1,46 @@
-## Near Shardnet Cheatsheat
+# Near Shardnet Cheatsheat
 
-# near send <sender> <receiver> <amount>  send sone tokens
-near send <from> <to> <amount>
+### Send tokens
+  ```
+  near send <from> <to> <amount>
+  ```
 
-# Get all accounts staked in your pool
-near view <YOUR_POOL>.factory.shardnet.near get_accounts '{"from_index": 0, "limit": 10}'
+### Get all accounts staked in your pool
+  ```
+  near view <YOUR_POOL>.factory.shardnet.near get_accounts '{"from_index": 0, "limit": 10}'
+  ```
 
-# Stake ALL tokens with the account <YOUR_ACCOUNT>.shardnet.near
-near call <YOUR_POOL>.factory.shardnet.near stake_all --accountId <YOUR_ACCOUNT>.shardnet.near
-
-# Get the total staked balance of the pool
-near call <YOUR_POOL>.factory.shardnet.near get_total_staked_balance '{}' --accountId <YOUR_ACCOUNT>.shardnet.near
-
-# Deposit 10k tokens for the account <YOUR_ACCOUNT>.shardnet.near
-near call <YOUR_POOL>.factory.shardnet.near deposit '' --accountId <YOUR_ACCOUNT>.shardnet.near --amount 10000
-
-# Stake 10k tokens (value in YoctoNEAR) with the account <YOUR_ACCOUNT>.shardnet.near
+### Stake ALL tokens with the account <YOUR_ACCOUNT>.shardnet.near
+  ```
+  near call <YOUR_POOL>.factory.shardnet.near stake_all --accountId <YOUR_ACCOUNT>.shardnet.near
+  ```
+### Get the total staked balance of the pool
+  ```
+  near call <YOUR_POOL>.factory.shardnet.near get_total_staked_balance '{}' --accountId <YOUR_ACCOUNT>.shardnet.near
+  ```
+### Deposit 10k tokens for the account <YOUR_ACCOUNT>.shardnet.near
+  ```
+  near call <YOUR_POOL>.factory.shardnet.near deposit '' --accountId <YOUR_ACCOUNT>.shardnet.near --amount 10000
+  ```
+### Stake 10k tokens (value in YoctoNEAR) with the account <YOUR_ACCOUNT>.shardnet.near
 near call <YOUR_POOL>.factory.shardnet.near stake {} --accountId <YOUR_ACCOUNT>.shardnet.near --amount 10000
 
-# Stake ALL tokens with the account <YOUR_ACCOUNT>.shardnet.near
+### Stake ALL tokens with the account <YOUR_ACCOUNT>.shardnet.near
 near call <YOUR_POOL>.factory.shardnet.near stake_all --accountId <YOUR_ACCOUNT>.shardnet.near
 
-# Unstake ALL tokens with the account <YOUR_ACCOUNT>.shardnet.near
+### Unstake ALL tokens with the account <YOUR_ACCOUNT>.shardnet.near
 near call <YOUR_POOL>.factory.shardnet.near unstake_all --accountId <YOUR_ACCOUNT>.shardnet.near
 
-# Ping the pool, paying gas from account <YOUR_ACCOUNT>.shardnet.near
+### Ping the pool, paying gas from account <YOUR_ACCOUNT>.shardnet.near
 near call <YOUR_POOL>.factory.shardnet.near ping '{}' --accountId <YOUR_ACCOUNT>.shardnet.near
 
-# Retrieve the total balance in YoctoNEAR for the account <YOUR_ACCOUNT>.shardnet.near
+### Retrieve the total balance in YoctoNEAR for the account <YOUR_ACCOUNT>.shardnet.near
 near view <YOUR_POOL>.factory.shardnet.near get_account_total_balance '{"account_id": "<YOUR_ACCOUNT>.shardnet.near"}'
 
-# Retrieve the staked balance in YoctoNEAR for the account <YOUR_ACCOUNT>.shardnet.near
+### Retrieve the staked balance in YoctoNEAR for the account <YOUR_ACCOUNT>.shardnet.near
 near view <YOUR_POOL>.factory.shardnet.near get_account_staked_balance '{"account_id": "<YOUR_ACCOUNT>.shardnet.near"}'
 
-# Unstake 10k tokens (value in YoctoNEAR) from the account <YOUR_ACCOUNT>.shardnet.near
+### Unstake 10k tokens (value in YoctoNEAR) from the account <YOUR_ACCOUNT>.shardnet.near
 near call <YOUR_POOL>.factory.shardnet.near stake '{"amount": "1200"}' --accountId <YOUR_ACCOUNT>.shardnet.near
 
 # Retrieve the unstaked balance in YoctoNEAR for the account <YOUR_ACCOUNT>.shardnet.near
